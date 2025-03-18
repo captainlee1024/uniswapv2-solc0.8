@@ -16,3 +16,27 @@ typechain-types
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Compiler files
+cache/
+out/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Docs
+docs/
+
+# Dotenv file
+.env
+
+#
+.idea
+.vscode
+.DS_Store
+
+#
+testdata
+broadcast
