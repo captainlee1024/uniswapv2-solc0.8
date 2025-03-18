@@ -7,6 +7,8 @@ import {IUniswapV2Pair} from "./interfaces/IUniswapV2Pair.sol";
 import {UniswapV2Pair} from "./UniswapV2Pair.sol";
 
 contract UniswapV2Factory is IUniswapV2Factory {
+    // pair init code hash
+    // 因为是常量，在编译时就已确定，所以staticcall可以访问到factory合约里的这个常量即UniswapV2Pair的creationCode
     bytes32 public constant PAIR_HASH = keccak256(type(UniswapV2Pair).creationCode);
 
     address public override feeTo;

@@ -15,8 +15,12 @@ library UniswapV2Library {
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
-    function pairFor(address factory, address tokenA, address tokenB) internal pure returns (address pair) {
+    function pairFor(address factory, address tokenA, address tokenB) internal view returns (address pair) {
         (address token0, address token1) = sortTokens(tokenA, tokenB);
+
+        (bool success, bytes memory data) = factory.staticcall(abi.encodeWithSignature("PAIR_HASH()"));
+        require(success, "UniswapV2Library: PAIR_HASH");
+        bytes32 initCodeHash = abi.decode(data, (bytes32));
         pair = address(
             uint160(
                 uint256(
@@ -25,7 +29,8 @@ library UniswapV2Library {
                             bytes1(0xff),
                             factory,
                             keccak256(abi.encodePacked(token0, token1)),
-                            hex"443533a897cfad2762695078bf6ee9b78b4edcda64ec31e1c83066cee4c90a7e" // init code hash
+                            //                            hex"443533a897cfad2762695078bf6ee9b78b4edcda64ec31e1c83066cee4c90a7e" // init code hash
+                            initCodeHash
                         )
                     )
                 )
